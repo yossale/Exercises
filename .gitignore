@@ -1,0 +1,14 @@
+# IDE FILES #
+.iml
+.eclipse
+.idea/
+target/
+
+
+# Compiled
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
