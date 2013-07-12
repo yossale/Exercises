@@ -1,8 +1,8 @@
 # IDE FILES #
-.iml
-.eclipse
-.idea/
-target/
+*.iml
+*.eclipse
+.idea/*
+target/*
 
 
 # Compiled
