@@ -1,6 +1,7 @@
 package com.yossale
 
 import groovyx.gpars.GParsExecutorsPool
+import junit.framework.Assert
 import org.apache.commons.io.IOUtils
 
 /**
@@ -108,7 +109,7 @@ public class ThreadSafeCounter {
 
         /*Even though we could synchronize on the method itself, I
         Think it's usually a good idea to be very specific about what you're synchronizing */
-        synchronized (counter) {
+        synchronized (this) {
             counter += update;
             return counter
         }
@@ -135,10 +136,12 @@ println("Trying to test Thread Safety")
 
 boolean failed = false
 
+def countTo = 100000
+
 def counter = new ThreadSafeCounter()
 try {
     GParsExecutorsPool.withPool(10) {
-        (0..100000).eachParallel {
+        (1..countTo).eachParallel {
             counter.inc()
         }
     }
@@ -151,6 +154,9 @@ try {
 }
 
 println("----------------------------------------------------------------------------------------------------------")
+
+Assert.assertEquals("Should have counted to " + countTo, countTo, counter.get())
+
 
 
 
