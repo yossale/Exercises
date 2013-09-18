@@ -49,28 +49,6 @@ question1(16)
 println("----------------------------------------------------------------------------------------------------------")
 
 /*
-Question 3
-Write a program that retrieves the HTML content of the Google homepage at http://www.google.com and writes it to a file (without images, css, etc. - just the HTML). The implementation should use Sockets directly, and must not use any existing HTTP related classes (neither JDK nor 3rd party)
-
- */
-
-//This doesn't work, because google is redirecting the request - which we can't follow, because
-// that's the whole point of using http and not just sockets...
-
-def String question3(String url) {
-
-    Socket socket = new Socket(url, 80);
-    DataInputStream inputStream = new DataInputStream(socket.getInputStream());
-    DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
-    outputStream.write("GET /search HTTP/1.0\n\n".getBytes());
-    return IOUtils.toString(inputStream, "utf-8")
-}
-
-println("Question 3")
-println question3("www.google.com")
-println("----------------------------------------------------------------------------------------------------------")
-
-/*
 Question 4:
 
 Write a method that given an integer N, computes the sum of 1+2+…+N. Write a unit test for the method.
@@ -78,14 +56,20 @@ Write a method that given an integer N, computes the sum of 1+2+…+N. Write a u
 Only works for n > 0
  */
 
-
+//The regular programmatic way..
 def question4(int n) {
     return (n == 1) ? 1 : (n + question4(n - 1))
+}
+
+//And the mathematical way
+def question4b(int n) {
+    return n*(n+1)/2
 }
 
 println("Question 4")
 
 println("running for n = 5 : " + question4(5));
+println("running for n = 5 using the formula: " + question4b(5));
 println("----------------------------------------------------------------------------------------------------------")
 
 /*
@@ -134,8 +118,6 @@ println("Question 5")
 
 println("Trying to test Thread Safety")
 
-boolean failed = false
-
 def countTo = 100000
 
 def counter = new ThreadSafeCounter()
@@ -147,17 +129,11 @@ try {
     }
 } catch (e) {
     println ("Error while running ThreadSafeCounter with multi threads ")
-    failed = true
-
-} finally {
-    println (failed ? "Damn, we failed... " : "Yeah! No concurrency issues!")
 }
 
 println("----------------------------------------------------------------------------------------------------------")
 
 Assert.assertEquals("Should have counted to " + countTo, countTo, counter.get())
-
-
 
 
 /* Question 6
